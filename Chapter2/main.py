@@ -1,18 +1,28 @@
 from fastapi import FastAPI
-from typing import Optional
-from pydantic import BaseModel
+from typing import Optional, List
+from pydantic import BaseModel, Field
+
+
+class ShopInfo(BaseModel):
+    name: str
+    location: str
 
 
 class Item(BaseModel):
-    name: str
+    name: str = Field(min_length=4, max_length=12)
     description: Optional[str] = None
     price: int
     tax: Optional[float] = None
 
 
+class Data(BaseModel):
+    shop_info: Optional[ShopInfo]
+    items: List[Item]
+
+
 app = FastAPI()
 
 
-@app.post("/item/")
-async def create_item(item: Item):
-    return {"message": f"{item.name}は税込み価格{int(item.price*item.tax)}円です。"}
+@app.post("/")
+async def index(data: Data):
+    return {"data": data}
