@@ -3,7 +3,7 @@ import json
 
 
 def main():
-    url = "http://127.0.0.1:8000"
+    url = "https://udemy-fastapi-1hav.onrender.com/"
     data = {"x": 1.2, "y": 3.0}
     res = requests.post(url, json.dumps(data))
     print(res.json())
